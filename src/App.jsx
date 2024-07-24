@@ -1,39 +1,13 @@
-import { useEffect, useState } from "react";
-import { getAllDestinations } from "./services/destinationService";
 import "./App.css";
+import { DestinationList } from "./components/destinations/DestinationList";
+import { UserList } from "./components/users/UserList";
 
 export const App = () => {
-  const [allDestinations, setAllDestinations] = useState([]);
-
-  useEffect(() => {
-    getAllDestinations().then((destinationsArray) => {
-      setAllDestinations(destinationsArray);
-      console.log("destinations set!");
-    });
-  }, []);
-
   return (
-    <div className="destinations-container">
-      <h2>Destinations</h2>
-      <article className="destinations">
-        {allDestinations.map((destination) => {
-          return (
-            <section className="destinations">
-              <header className="destinations-container">
-                #{destination.id}
-              </header>
-              <div>{destination.details}</div>
-              <footer>
-                <div>
-                  <div className="destinations-container">Liked?</div>
-                  <div>{destination.isLiked ? "Yes!" : "No."}</div>
-                </div>
-              </footer>
-            </section>
-          );
-        })}
-      </article>
-    </div>
+    <>
+      <DestinationList />
+      <UserList />
+    </>
   );
 };
 
