@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { addNewDestination } from "../../services/destinationService";
 
-export const DestinationForm = ({ onFormSubmit }) => {
-  const [newDestination, setNewDestination] = useState({
+export const DestinationForm = ({ onDestinationAdded }) => {
+  const [destination, setDestination] = useState({
     name: "",
     country: "",
     state: "",
@@ -11,16 +12,34 @@ export const DestinationForm = ({ onFormSubmit }) => {
   });
 
   const handleInputChange = (event) => {
-    const { name, value, type, checked } = event.target;
-    setNewDestination((prevDestination) => ({
+    const { name, value } = event.target;
+    setDestination((prevDestination) => ({
       ...prevDestination,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: value,
     }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    onFormSubmit(newDestination);
+    try {
+      await addNewDestination(destination);
+      if (onDestinationAdded && typeof onDestinationAdded === "function") {
+        onDestinationAdded(); // Notify parent component about the new addition
+      } else {
+        console.error("onDestinationAdded is not a function");
+      }
+      // Optionally reset the form
+      setDestination({
+        name: "",
+        country: "",
+        state: "",
+        continent_id: "",
+        details: "",
+        isLiked: false,
+      });
+    } catch (error) {
+      console.error("Failed to add destination:", error);
+    }
   };
 
   return (
@@ -31,7 +50,7 @@ export const DestinationForm = ({ onFormSubmit }) => {
           type="text"
           id="name"
           name="name"
-          value={newDestination.name}
+          value={destination.name}
           onChange={handleInputChange}
           required
         />
@@ -42,7 +61,7 @@ export const DestinationForm = ({ onFormSubmit }) => {
           type="text"
           id="country"
           name="country"
-          value={newDestination.country}
+          value={destination.country}
           onChange={handleInputChange}
           required
         />
@@ -53,7 +72,7 @@ export const DestinationForm = ({ onFormSubmit }) => {
           type="text"
           id="state"
           name="state"
-          value={newDestination.state}
+          value={destination.state}
           onChange={handleInputChange}
         />
       </div>
@@ -62,7 +81,7 @@ export const DestinationForm = ({ onFormSubmit }) => {
         <select
           id="continent_id"
           name="continent_id"
-          value={newDestination.continent_id}
+          value={destination.continent_id}
           onChange={handleInputChange}
           required
         >
@@ -81,7 +100,7 @@ export const DestinationForm = ({ onFormSubmit }) => {
         <textarea
           id="details"
           name="details"
-          value={newDestination.details}
+          value={destination.details}
           onChange={handleInputChange}
           required
         ></textarea>
@@ -92,8 +111,13 @@ export const DestinationForm = ({ onFormSubmit }) => {
           type="checkbox"
           id="isLiked"
           name="isLiked"
-          checked={newDestination.isLiked}
-          onChange={handleInputChange}
+          checked={destination.isLiked}
+          onChange={() =>
+            setDestination((prev) => ({
+              ...prev,
+              isLiked: !prev.isLiked,
+            }))
+          }
         />
       </div>
       <button type="submit">Add Destination</button>
