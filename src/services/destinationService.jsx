@@ -1,13 +1,37 @@
-export const getAllDestinations = () => {
-  return fetch(`http://localhost:8088/destinations`).then((res) => res.json());
+export const getAllDestinations = async () => {
+  const response = await fetch("http://localhost:8088/destinations");
+  return response.json();
 };
 
-export const addNewDestination = (newDestination) => {
-  return fetch(`http://localhost:8088/destinations`, {
+export const addNewDestination = async (destination) => {
+  const response = await fetch("http://localhost:8088/destinations", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(newDestination),
-  }).then((res) => res.json());
+    body: JSON.stringify(destination),
+  });
+  return response.json();
+};
+
+export const deleteDestination = async (id) => {
+  await fetch(`http://localhost:8088/destinations/${id}`, {
+    method: "DELETE",
+  });
+};
+
+export const getDestinationById = async (id) => {
+  const response = await fetch(`http://localhost:8088/destinations/${id}`);
+  return response.json();
+};
+
+export const updateDestination = async (id, updatedDestination) => {
+  const response = await fetch(`http://localhost:8088/destinations/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updatedDestination),
+  });
+  return response.json();
 };

@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { getAllDestinations } from "../../services/destinationService";
-import { addNewDestination } from "../../services/destinationService";
+import {
+  getAllDestinations,
+  deleteDestination,
+} from "../../services/destinationService";
 import { Destination } from "./Destination";
-import { DestinationForm } from "./DestinationForm";
-import "./Destinations.css";
 import { DestinationFilterBar } from "./DestinationFilterBar";
+import { Link } from "react-router-dom";
+import "./Destinations.css";
 
 export const DestinationList = () => {
   const [allDestinations, setAllDestinations] = useState([]);
@@ -27,7 +29,6 @@ export const DestinationList = () => {
       );
     }
 
-    // Search all fields of the destination object
     const foundDestinations = destinationsToFilter.filter((destination) =>
       (destination.name + " " + destination.country + " " + destination.details)
         .toLowerCase()
@@ -37,13 +38,16 @@ export const DestinationList = () => {
     setFilteredDestinations(foundDestinations);
   }, [searchTerm, showLiked, allDestinations]);
 
-  const handleFormSubmit = (newDestination) => {
-    addNewDestination(newDestination).then((addedDestination) => {
-      setAllDestinations((prevDestinations) => [
-        ...prevDestinations,
-        addedDestination,
-      ]);
-    });
+  const handleDelete = (id) => {
+    deleteDestination(id)
+      .then(() => {
+        setAllDestinations(
+          allDestinations.filter((destination) => destination.id !== id)
+        );
+      })
+      .catch((error) => {
+        console.error("Failed to delete destination:", error);
+      });
   };
 
   return (
@@ -53,13 +57,17 @@ export const DestinationList = () => {
         setShowLiked={setShowLiked}
         setSearchTerm={setSearchTerm}
       />
-      <DestinationForm onFormSubmit={handleFormSubmit} />
+      <Link to="/destinations/add" className="add-destination-button">
+        Add Destination
+      </Link>
       <article className="destinations">
-        {filteredDestinations.map((destinationObj) => {
-          return (
-            <Destination destination={destinationObj} key={destinationObj.id} />
-          );
-        })}
+        {filteredDestinations.map((destinationObj) => (
+          <Destination
+            key={destinationObj.id}
+            destination={destinationObj}
+            onDelete={handleDelete}
+          />
+        ))}
       </article>
     </div>
   );
