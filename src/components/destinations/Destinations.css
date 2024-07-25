@@ -1,26 +1,42 @@
-.destination {
-  display: flex;
-  flex-direction: column;
-  border: solid;
-}
-
-.destination-container {
+/* Ensure there's enough space for the header below the navbar */
+.destinations-container {
   margin: 1rem 5rem 0rem 5rem;
 }
 
-.destination-container > h2 {
+/* Style the header with a solid line underneath */
+.destinations-container > h2 {
   margin-top: 0;
+  padding-top: 60px; /* Adjust this value if needed to ensure it's below the navbar */
+  border-bottom: 2px solid #ccc; /* Add border line under the title */
 }
 
+/* Style the 'Add Destination' button */
+.add-destination-button {
+  display: inline-block;
+  background-color: rgb(48, 176, 235); /* Match your theme color */
+  color: aliceblue;
+  padding: 0.5rem 1rem;
+  border: 1px solid rgb(48, 176, 235); /* Border matching button background */
+  border-radius: 0.25rem;
+  text-decoration: none;
+  font-size: 1rem;
+  margin-top: 1rem; /* Space above the button */
+}
+
+.add-destination-button:hover {
+  background-color: rgb(35, 145, 193); /* Darker shade for hover effect */
+  border-color: rgb(35, 145, 193);
+}
+
+/* Ensure the destination card styles are consistent */
 .destination {
-  background-color: var(rgb(132, 7, 7));
+  background-color: rgb(132, 7, 7);
   border: 1px solid;
   margin: 0.5rem 0;
   border-radius: 0.5rem;
   padding: 0.5rem;
 }
 
-/* This targets all the child elements of the element with the .destination class */
 .destination > * {
   padding: 0.5rem;
 }
@@ -30,7 +46,6 @@
   font-family: "Roboto", sans-serif;
 }
 
-/* This targets any footer element that is a child of an element with the .destination class */
 .destination > footer {
   display: flex;
   border-top: 1px solid var(--outline);
@@ -38,19 +53,11 @@
   justify-content: space-between;
 }
 
-/* This targets any element that is a child of a footer that is a child of an element with the .destination class */
 .destination > footer > * {
   flex-basis: 22%;
 }
 
-.ticket-search {
-  padding: 0.375rem 0.75rem;
-  font-size: 1rem;
-  border: 1px solid var(--outline);
-  border-radius: 0.25rem;
-  margin-left: auto;
-}
-
+/* Styles for the filter bar and buttons */
 .filter-bar {
   display: flex;
 }
@@ -70,16 +77,76 @@
 }
 
 .btn-add {
-  background-color: rgb(235, 63, 0);
+  background-color: rgb(48, 176, 235);
+  display: inline-flex;
+  color: aliceblue;
 }
 
 .btn-del {
   background-color: rgb(238, 208, 36);
 }
 
+/* Styles for forms and inputs */
 .destination-input {
   border-radius: 0.5rem 0rem 0rem 0.5rem;
   border: 2px solid white;
   flex-grow: 1;
   margin: 1rem 0;
+}
+
+.destination-form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+}
+
+.destination-form-wrapper {
+  max-width: 600px;
+  width: 100%;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.destination-form-wrapper h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.destination-form-wrapper form {
+  display: flex;
+  flex-direction: column;
+}
+
+.destination-form-wrapper form div {
+  margin-bottom: 10px;
+}
+
+.destination-form-wrapper form label {
+  margin-bottom: 5px;
+}
+
+.destination-form-wrapper form input,
+.destination-form-wrapper form select,
+.destination-form-wrapper form textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.destination-form-wrapper form button {
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.destination-form-wrapper form button:hover {
+  background-color: #0056b3;
 }

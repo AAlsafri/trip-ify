@@ -20,7 +20,9 @@ export const Destination = ({ destination, onDelete }) => {
     <section className="destination">
       <header>
         <Link to={`/destinations/${destination.id}`}>
-          <h3>{destination.name}</h3>
+          <h3>
+            #{destination.id} {destination.name} {/* Added ID with # prefix */}
+          </h3>
         </Link>
       </header>
       <div>{destination.details}</div>
