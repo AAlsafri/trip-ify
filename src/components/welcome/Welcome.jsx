@@ -12,6 +12,10 @@ export const Welcome = () => {
         destinations and sharing them with others!
       </div>
       <p>**Please checkout the navigation bar at the top for direction</p>
+      <p></p>
+      <p></p>
+      <p></p>
+      <p></p>
     </div>
   );
 };

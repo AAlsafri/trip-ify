@@ -1,137 +1,176 @@
-import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import {
   getDestinationById,
   updateDestination,
 } from "../../services/destinationService";
+import "./Destinations.css";
 
 export const DestinationDetails = () => {
   const { destinationId } = useParams();
-  const [destination, setDestination] = useState(null);
-  const [isEditMode, setIsEditMode] = useState(false);
   const navigate = useNavigate();
+  const [destination, setDestination] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedDestination, setEditedDestination] = useState({
+    name: "",
+    country: "",
+    state: "N/A", // Default to N/A
+    continent_id: "N/A", // Default to N/A
+    details: "",
+    isLiked: false,
+  });
 
   useEffect(() => {
     getDestinationById(destinationId)
-      .then((data) => setDestination(data))
+      .then((data) => {
+        setDestination(data);
+        // Set default values for missing fields
+        setEditedDestination({
+          ...data,
+          state: data.state || "N/A",
+          continent_id: data.continent_id || "N/A",
+        });
+      })
       .catch((error) => console.error("Failed to fetch destination:", error));
   }, [destinationId]);
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setDestination((prevDestination) => ({
-      ...prevDestination,
-      [name]: value,
-    }));
+  const handleEditToggle = () => {
+    setIsEditing(!isEditing);
   };
 
-  const handleUpdate = async (event) => {
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setEditedDestination({ ...editedDestination, [name]: value });
+  };
+
+  const handleSubmit = (event) => {
     event.preventDefault();
-    try {
-      await updateDestination(destinationId, destination);
-      setIsEditMode(false);
-      navigate(`/destinations/${destinationId}`);
-    } catch (error) {
-      console.error("Failed to update destination:", error);
-    }
+    updateDestination(destinationId, editedDestination)
+      .then(() => {
+        setDestination(editedDestination);
+        setIsEditing(false);
+      })
+      .catch((error) => console.error("Failed to update destination:", error));
   };
 
   if (!destination) {
     return <p>Loading...</p>;
   }
 
+  const continents = [
+    { id: "1", name: "North America" },
+    { id: "2", name: "Europe" },
+    { id: "3", name: "Asia" },
+    { id: "4", name: "Africa" },
+    { id: "5", name: "Australia" },
+    { id: "6", name: "South America" },
+    { id: "7", name: "Antarctica" },
+  ];
+
+  const continentOptions = continents.map((continent) => (
+    <option key={continent.id} value={continent.id}>
+      {continent.name}
+    </option>
+  ));
+
   return (
-    <div>
-      <h2>Destination Details</h2>
-      {isEditMode ? (
-        <form onSubmit={handleUpdate}>
-          <div>
-            <label htmlFor="name">Destination Name:</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={destination.name || ""}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="country">Country:</label>
-            <input
-              type="text"
-              id="country"
-              name="country"
-              value={destination.country || ""}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="state">State (optional):</label>
-            <input
-              type="text"
-              id="state"
-              name="state"
-              value={destination.state || ""}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div>
-            <label htmlFor="continent_id">Continent:</label>
-            <select
-              id="continent_id"
-              name="continent_id"
-              value={destination.continent_id || ""}
-              onChange={handleInputChange}
-              required
-            >
-              <option value="">Select a continent</option>
-              <option value="1">North America</option>
-              <option value="2">Europe</option>
-              <option value="3">Asia</option>
-              <option value="4">Africa</option>
-              <option value="5">Australia</option>
-              <option value="6">South America</option>
-              <option value="7">Antarctica</option>
-            </select>
-          </div>
-          <div>
-            <label htmlFor="details">Details:</label>
-            <textarea
-              id="details"
-              name="details"
-              value={destination.details || ""}
-              onChange={handleInputChange}
-              required
-            ></textarea>
-          </div>
-          <div>
-            <label htmlFor="isLiked">Liked:</label>
-            <input
-              type="checkbox"
-              id="isLiked"
-              name="isLiked"
-              checked={destination.isLiked || false}
-              onChange={() =>
-                setDestination((prev) => ({
-                  ...prev,
-                  isLiked: !prev.isLiked,
-                }))
-              }
-            />
-          </div>
-          <button type="submit">Update Destination</button>
-        </form>
+    <div className="destination-form">
+      {isEditing ? (
+        <>
+          <h1>Update Destination</h1>
+          <form onSubmit={handleSubmit} className="destination-form-wrapper">
+            <div>
+              <label htmlFor="name">Name:</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={editedDestination.name}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label htmlFor="country">Country:</label>
+              <input
+                type="text"
+                id="country"
+                name="country"
+                value={editedDestination.country}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label htmlFor="state">State:</label>
+              <input
+                type="text"
+                id="state"
+                name="state"
+                value={editedDestination.state}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label htmlFor="continent">Continent:</label>
+              <select
+                id="continent"
+                name="continent_id"
+                value={editedDestination.continent_id}
+                onChange={handleChange}
+              >
+                <option value="N/A">N/A</option>
+                {continentOptions}
+              </select>
+            </div>
+            <div>
+              <label htmlFor="details">Details:</label>
+              <textarea
+                id="details"
+                name="details"
+                value={editedDestination.details}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label htmlFor="isLiked">Liked:</label>
+              <input
+                type="checkbox"
+                id="isLiked"
+                name="isLiked"
+                checked={editedDestination.isLiked}
+                onChange={() =>
+                  setEditedDestination({
+                    ...editedDestination,
+                    isLiked: !editedDestination.isLiked,
+                  })
+                }
+              />
+            </div>
+            <button type="submit" className="submit-button">
+              Save
+            </button>
+          </form>
+        </>
       ) : (
-        <div>
-          <h3>{destination.name}</h3>
-          <p>{destination.details}</p>
-          <p>Country: {destination.country}</p>
-          <p>State: {destination.state}</p>
-          <p>Continent: {destination.continent_id}</p>
-          <p>Favorite: {destination.isLiked ? "Yes" : "No"}</p>
-          <button onClick={() => setIsEditMode(true)}>Edit</button>
+        <div className="destination-form-wrapper">
+          <h2>{destination.name}</h2>
+          <p>
+            <strong>Country:</strong> {destination.country}
+          </p>
+          <p>
+            <strong>State:</strong> {destination.state || "N/A"}
+          </p>
+          <p>
+            <strong>Continent:</strong>{" "}
+            {continents.find((c) => c.id === destination.continent_id)?.name ||
+              "N/A"}
+          </p>
+          <p>
+            <strong>Details:</strong> {destination.details}
+          </p>
+          <p>
+            <strong>Liked:</strong> {destination.isLiked ? "Yes" : "No"}
+          </p>
+          <button onClick={handleEditToggle}>Edit</button>
         </div>
       )}
     </div>
