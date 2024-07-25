@@ -5,8 +5,11 @@ import { UserList } from "./components/users/UserList";
 import "./App.css";
 import { Welcome } from "./components/welcome/Welcome";
 import { UserDetails } from "./components/users/UserDetails";
-import { DestinationDetails } from "./components/destinations/DestinationDetails";
 import { AddDestinationPage } from "./components/destinations/AddDestinationForm";
+import { EditUserForm } from "./components/users/EditUserForm";
+
+import { DestinationDetails } from "./components/destinations/DestinationDetails";
+import { AddUserForm } from "./components/users/AddUserForm";
 
 export const App = () => {
   return (
@@ -28,6 +31,8 @@ export const App = () => {
         </Route>
         <Route path="users">
           <Route index element={<UserList />} />
+          <Route path="add" element={<AddUserForm />} />
+          <Route path=":userId/edit" element={<EditUserForm />} />
           <Route path=":userId" element={<UserDetails />} />
         </Route>
       </Route>
