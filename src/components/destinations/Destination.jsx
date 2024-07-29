@@ -33,7 +33,7 @@ export const Destination = ({ destination, onDelete }) => {
         </div>
         <button onClick={handleDelete}>Delete</button>
         <Link to={`/destinations/${destination.id}/edit`}>
-          <button>Edit</button>
+          {/* <button>Edit</button> */}
         </Link>
       </footer>
     </section>

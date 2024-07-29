@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getUsers, deleteUser } from "../../services/userService";
 import "./Users.css";
+import { deleteUser, getUsers } from "../../services/userService";
 
 export const UserList = () => {
   const [users, setUsers] = useState([]);

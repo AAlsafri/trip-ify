@@ -3,7 +3,7 @@
   width: 60%;
   text-align: center;
   padding: 5rem 3rem;
-  border: 1px solid var(--outline);
+  border: 1px solid gray;
   background-color: white;
   border-radius: 0.5rem;
   display: flex;
@@ -14,8 +14,8 @@
 .welcome-container > h1 {
   display: flex;
   flex-direction: column;
-  color: var(--primary);
-  border-bottom: 2px solid #ccc;
+  color: blue;
+  border-bottom: 2px solid #000000;
   padding-bottom: 1rem;
   margin-bottom: 2rem;
 }
@@ -26,7 +26,7 @@
 }
 
 .welcome-container > p {
-  border-top: 2px solid #ccc;
+  border-top: 2px solid #000000;
   padding-top: 1rem;
 }
 

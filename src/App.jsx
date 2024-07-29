@@ -1,41 +1,24 @@
-import { Routes, Route, Outlet } from "react-router-dom";
-import { DestinationList } from "./components/destinations/DestinationList";
-import { NavBar } from "./components/Nav/NavBar";
-import { UserList } from "./components/users/UserList";
+import { Routes, Route } from "react-router-dom";
 import "./App.css";
-import { Welcome } from "./components/welcome/Welcome";
-import { UserDetails } from "./components/users/UserDetails";
-import { AddDestinationPage } from "./components/destinations/AddDestinationForm";
-import { EditUserForm } from "./components/users/EditUserForm";
-
-import { DestinationDetails } from "./components/destinations/DestinationDetails";
-import { AddUserForm } from "./components/users/AddUserForm";
+import { Login } from "./components/auth/Login";
+import { Register } from "./components/auth/Register";
+import { Authorized } from "./views/Authorized";
+import { ApplicationViews } from "./views/ApplicationViews";
 
 export const App = () => {
   return (
     <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+
       <Route
-        path="/"
+        path="*"
         element={
-          <>
-            <NavBar />
-            <Outlet />
-          </>
+          <Authorized>
+            <ApplicationViews />
+          </Authorized>
         }
-      >
-        <Route index element={<Welcome />} />
-        <Route path="destinations">
-          <Route index element={<DestinationList />} />
-          <Route path="add" element={<AddDestinationPage />} />
-          <Route path=":destinationId" element={<DestinationDetails />} />
-        </Route>
-        <Route path="users">
-          <Route index element={<UserList />} />
-          <Route path="add" element={<AddUserForm />} />
-          <Route path=":userId/edit" element={<EditUserForm />} />
-          <Route path=":userId" element={<UserDetails />} />
-        </Route>
-      </Route>
+      />
     </Routes>
   );
 };

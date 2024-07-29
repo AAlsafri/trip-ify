@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getUserById } from "../../services/userService";
+// import { getUserById } from "../../services/userService";
 
 export const UserDetails = () => {
   const { userId } = useParams();
