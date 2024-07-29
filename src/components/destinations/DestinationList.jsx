@@ -8,17 +8,32 @@ import { DestinationFilterBar } from "./DestinationFilterBar";
 import { Link } from "react-router-dom";
 import "./Destinations.css";
 
-export const DestinationList = () => {
+export const DestinationList = ({ currentUser }) => {
   const [allDestinations, setAllDestinations] = useState([]);
   const [showLiked, setShowLiked] = useState(false);
   const [filteredDestinations, setFilteredDestinations] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    getAllDestinations().then((destinationsArray) => {
-      setAllDestinations(destinationsArray);
-    });
-  }, []);
+    getAllDestinations()
+      .then((destinationsArray) => {
+        // Ensure destinationsArray is an array and filter by currentUser.id
+        if (Array.isArray(destinationsArray)) {
+          const userDestinations = destinationsArray.filter(
+            (destination) => destination.user_id === currentUser.id
+          );
+          setAllDestinations(userDestinations);
+        } else {
+          console.error(
+            "Unexpected response from getAllDestinations:",
+            destinationsArray
+          );
+        }
+      })
+      .catch((error) => {
+        console.error("Failed to fetch destinations:", error);
+      });
+  }, [currentUser]); // Fetch destinations when currentUser changes
 
   useEffect(() => {
     let destinationsToFilter = allDestinations;
