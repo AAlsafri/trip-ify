@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { addNewDestination } from "../../services/destinationService";
 import "./Destinations.css";
+import { useNavigate } from "react-router-dom";
 
 export const AddDestinationPage = () => {
   const [newDestination, setNewDestination] = useState({
@@ -11,6 +12,8 @@ export const AddDestinationPage = () => {
     details: "",
     isLiked: false,
   });
+
+  const navigate = useNavigate();
 
   // Hardcoded continents
   const continents = [
@@ -39,6 +42,7 @@ export const AddDestinationPage = () => {
       details: "",
       isLiked: false,
     });
+    navigate("/destinations");
   };
 
   return (
