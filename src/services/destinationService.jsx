@@ -1,72 +1,60 @@
+const apiUrl = "http://localhost:8088";
+
+// Function to get all destinations and find the next available ID
+const getNextId = async () => {
+  const response = await fetch(`${apiUrl}/destinations`);
+  const destinations = await response.json();
+  if (destinations.length === 0) return 1; // Start with ID 1 if no destinations exist
+
+  const highestId = Math.max(
+    ...destinations.map((dest) => parseInt(dest.id, 10))
+  );
+  return highestId + 1;
+};
+
 export const getAllDestinations = async () => {
-  const response = await fetch("http://localhost:8088/destinations");
+  const response = await fetch(`${apiUrl}/destinations`);
   return response.json();
 };
 
-// Function to generate sequential numeric IDs
-const generateSequentialId = async () => {
-  const response = await fetch("http://localhost:8088/destinations");
-  const destinations = await response.json();
-
-  // Extract numeric IDs and handle cases where there are no destinations
-  const ids = destinations
-    .map((dest) => parseInt(dest.id, 10))
-    .filter((id) => !isNaN(id));
-  const maxId = ids.length > 0 ? Math.max(...ids) : 0;
-
-  return maxId + 1;
+export const getDestinationsByUserId = async (userId) => {
+  const response = await fetch(`${apiUrl}/destinations?userId=${userId}`);
+  return response.json();
 };
 
-// Function to add a new destination with a string ID
 export const addNewDestination = async (destination) => {
-  // Generate sequential numeric ID
-  const nextId = await generateSequentialId();
+  const nextId = await getNextId(); // Get the next available ID
+  const newDestination = { ...destination, id: nextId.toString() }; // Assign new ID
 
-  // Ensure ID is a string
-  const destinationWithId = {
-    ...destination,
-    id: nextId.toString(), // FIX: Convert ID to a string
-  };
-
-  const response = await fetch("http://localhost:8088/destinations", {
+  const response = await fetch(`${apiUrl}/destinations`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(destinationWithId),
+    body: JSON.stringify(newDestination),
   });
   return response.json();
 };
 
-// Function to delete a destination by ID
-export const deleteDestination = async (id) => {
-  await fetch(`http://localhost:8088/destinations/${id}`, {
+export const deleteDestination = async (destinationId) => {
+  const response = await fetch(`${apiUrl}/destinations/${destinationId}`, {
     method: "DELETE",
   });
+  return response.json();
 };
 
-// Function to fetch a destination by ID
-export const getDestinationById = async (id) => {
-  try {
-    const response = await fetch(`http://localhost:8088/destinations/${id}`);
-    if (!response.ok) {
-      throw new Error("Failed to fetch destination");
-    }
-    return response.json();
-  } catch (error) {
-    console.error("Failed to fetch destination:", error);
-    throw error;
-  }
-};
-
-// Function to update a destination by ID
-export const updateDestination = async (id, updatedDestination) => {
-  const response = await fetch(`http://localhost:8088/destinations/${id}`, {
+export const updateDestination = async (destination) => {
+  const response = await fetch(`${apiUrl}/destinations/${destination.id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(updatedDestination),
+    body: JSON.stringify(destination),
   });
+  return response.json();
+};
+
+export const getDestinationById = async (id) => {
+  const response = await fetch(`${apiUrl}/destinations/${id}`);
   return response.json();
 };
