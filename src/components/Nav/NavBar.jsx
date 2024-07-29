@@ -8,9 +8,9 @@ export const NavBar = () => {
       <li className="navbar-item">
         <Link to="/destinations">Destinations</Link>
       </li>
-      <li className="navbar-item">
+      {/* <li className="navbar-item">
         <Link to="/users">Users</Link>
-      </li>
+      </li> */}
       {localStorage.getItem("trip-ify_user") ? (
         <li className="navbar-item navbar-logout">
           <Link
