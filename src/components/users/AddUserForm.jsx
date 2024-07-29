@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { addUser } from "../../services/userService";
 import { useNavigate } from "react-router-dom";
 import "./Users.css";
+import { addUser } from "../../services/userService";
 
 export const AddUserForm = () => {
   const [name, setName] = useState("");

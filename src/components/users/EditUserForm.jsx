@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getUserById, updateUser } from "../../services/userService";
 import "./Users.css";
+import { getUserById, updateUser } from "../../services/userService";
 
 export const EditUserForm = () => {
   const { userId } = useParams();
