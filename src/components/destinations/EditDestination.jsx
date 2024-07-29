@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   getDestinationById,
   updateDestination,
@@ -6,7 +7,10 @@ import {
 import { getAllContinents } from "../../services/continentService"; // Ensure this service exists or is replaced with hardcoded values
 import "./Destinations.css";
 
-export const EditDestination = ({ match, history }) => {
+export const EditDestination = () => {
+  const { id } = useParams(); // Use useParams to get the ID from the URL
+  const navigate = useNavigate(); // Use useNavigate for navigation
+
   const [destination, setDestination] = useState({
     name: "",
     country: "",
@@ -14,14 +18,16 @@ export const EditDestination = ({ match, history }) => {
     continent_id: "",
     details: "",
     isLiked: false,
+    id: "", // Ensure id is part of the destination object
   });
   const [continents, setContinents] = useState([]);
 
   useEffect(() => {
     const fetchDestination = async () => {
-      const id = match.params.id;
       const dest = await getDestinationById(id);
-      setDestination(dest);
+      if (dest) {
+        setDestination(dest);
+      }
     };
 
     const fetchContinents = async () => {
@@ -31,17 +37,29 @@ export const EditDestination = ({ match, history }) => {
 
     fetchDestination();
     fetchContinents();
-  }, [match.params.id]);
+  }, [id]);
 
   const handleChange = (event) => {
-    const { name, value } = event.target;
-    setDestination({ ...destination, [name]: value });
+    const { name, value, type, checked } = event.target;
+    setDestination((prevDestination) => ({
+      ...prevDestination,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await updateDestination(destination.id, destination);
-    history.push("/destinations"); // Redirect to the destinations list or details page
+    if (!destination.id) {
+      console.error("Destination ID is missing");
+      return;
+    }
+    try {
+      await updateDestination(destination); // Ensure destination object includes the id
+      navigate("/destinations", { replace: true });
+      // Redirect to the destinations list
+    } catch (error) {
+      console.error("Failed to update destination:", error);
+    }
   };
 
   return (
@@ -78,7 +96,7 @@ export const EditDestination = ({ match, history }) => {
           />
         </div>
         <div>
-          <label htmlFor="continent">Continent:</label>
+          <label htmlFor="continent_id">Continent:</label>
           <select
             id="continent_id"
             name="continent_id"
@@ -109,12 +127,7 @@ export const EditDestination = ({ match, history }) => {
             id="isLiked"
             name="isLiked"
             checked={destination.isLiked}
-            onChange={() =>
-              setDestination({
-                ...destination,
-                isLiked: !destination.isLiked,
-              })
-            }
+            onChange={handleChange}
           />
         </div>
         <button type="submit">Update Destination</button>

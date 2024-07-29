@@ -14,10 +14,10 @@ export const DestinationList = ({ currentUser }) => {
   const [filteredDestinations, setFilteredDestinations] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => {
+  // Function to fetch all destinations and set the state
+  const fetchDestinations = () => {
     getAllDestinations()
       .then((destinationsArray) => {
-        // Ensure destinationsArray is an array and filter by currentUser.id
         if (Array.isArray(destinationsArray)) {
           const userDestinations = destinationsArray.filter(
             (destination) => destination.user_id === currentUser.id
@@ -33,7 +33,11 @@ export const DestinationList = ({ currentUser }) => {
       .catch((error) => {
         console.error("Failed to fetch destinations:", error);
       });
-  }, [currentUser]); // Fetch destinations when currentUser changes
+  };
+
+  useEffect(() => {
+    fetchDestinations();
+  }, [currentUser]);
 
   useEffect(() => {
     let destinationsToFilter = allDestinations;
@@ -53,11 +57,12 @@ export const DestinationList = ({ currentUser }) => {
     setFilteredDestinations(foundDestinations);
   }, [searchTerm, showLiked, allDestinations]);
 
+  // Handler to delete a destination and update the state
   const handleDelete = (id) => {
     deleteDestination(id)
       .then(() => {
-        setAllDestinations(
-          allDestinations.filter((destination) => destination.id !== id)
+        setAllDestinations((prevDestinations) =>
+          prevDestinations.filter((destination) => destination.id !== id)
         );
       })
       .catch((error) => {
