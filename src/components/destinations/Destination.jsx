@@ -1,19 +1,8 @@
 import { Link } from "react-router-dom";
-import { deleteDestination } from "../../services/destinationService";
 
 export const Destination = ({ destination, onDelete }) => {
   const handleDelete = () => {
-    deleteDestination(destination.id)
-      .then(() => {
-        if (typeof onDelete === "function") {
-          onDelete(destination.id);
-        } else {
-          console.error("onDelete is not a function");
-        }
-      })
-      .catch((error) => {
-        console.error("Failed to delete destination:", error);
-      });
+    onDelete(destination.id);
   };
 
   return (
@@ -21,7 +10,7 @@ export const Destination = ({ destination, onDelete }) => {
       <header>
         <Link to={`/destinations/${destination.id}`}>
           <h3>
-            #{destination.id} {destination.name} {/* Added ID with # prefix */}
+            #{destination.id} {destination.name}
           </h3>
         </Link>
       </header>
