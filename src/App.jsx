@@ -4,13 +4,13 @@ import { Login } from "./components/auth/Login";
 import { Register } from "./components/auth/Register";
 import { Authorized } from "./views/Authorized";
 import { ApplicationViews } from "./views/ApplicationViews";
+import UserExplorations from "./components/users/UserExplorations";
 
 export const App = () => {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-
       <Route
         path="*"
         element={
@@ -19,6 +19,7 @@ export const App = () => {
           </Authorized>
         }
       />
+      <Route path="/explorations" element={<UserExplorations />} /> {/* NEW */}
     </Routes>
   );
 };

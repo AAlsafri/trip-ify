@@ -11,6 +11,9 @@ export const NavBar = () => {
       {/* <li className="navbar-item">
         <Link to="/users">Users</Link>
       </li> */}
+      <li className="navbar-item">
+        <Link to="/explorations">Explorations</Link> {/* NEW */}
+      </li>
       {localStorage.getItem("trip-ify_user") ? (
         <li className="navbar-item navbar-logout">
           <Link
