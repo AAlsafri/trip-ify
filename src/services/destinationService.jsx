@@ -31,7 +31,7 @@ export const getAllDestinations = async () => {
 
 export const getDestinationsByUserId = async (userId) => {
   try {
-    const response = await fetch(`${apiUrl}/destinations?userId=${userId}`);
+    const response = await fetch(`${apiUrl}/destinations?user_id=${userId}`);
     if (!response.ok)
       throw new Error("Failed to fetch destinations by user ID");
     return response.json();
@@ -62,13 +62,47 @@ export const addNewDestination = async (destination) => {
 };
 
 export const deleteDestination = async (destinationId) => {
-  const response = await fetch(`${apiUrl}/destinations/${destinationId}`, {
-    method: "DELETE",
-  });
-  if (!response.ok) {
-    throw new Error(`Failed to delete destination: ${response.statusText}`);
+  try {
+    const response = await fetch(`${apiUrl}/destinations/${destinationId}`, {
+      method: "DELETE",
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to delete destination: ${response.statusText}`);
+    }
+
+    // Update travel history
+    const travelHistoryResponse = await fetch(`${apiUrl}/travelHistory`);
+    const travelHistoryData = await travelHistoryResponse.json();
+
+    const updatedTravelHistoryData = travelHistoryData.map((history) => {
+      if (history.destination_ids.includes(destinationId)) {
+        return {
+          ...history,
+          destination_ids: history.destination_ids.filter(
+            (id) => id !== destinationId
+          ),
+        };
+      }
+      return history;
+    });
+
+    await Promise.all(
+      updatedTravelHistoryData.map((history) =>
+        fetch(`${apiUrl}/travelHistory/${history.id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(history),
+        })
+      )
+    );
+
+    return; // No need to return JSON, just return undefined
+  } catch (error) {
+    console.error("Error deleting destination:", error);
+    throw error;
   }
-  return; // No need to return JSON, just return undefined
 };
 
 export const updateDestination = async (id, destination) => {

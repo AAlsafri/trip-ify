@@ -41,7 +41,7 @@ export const AddDestinationPage = ({ currentUser }) => {
     if (!newDestination.user_id) {
       newDestination.user_id = currentUser.id;
     }
-    await addNewDestination(newDestination);
+    const addedDestination = await addNewDestination(newDestination);
     setNewDestination({
       name: "",
       country: "",
@@ -51,7 +51,50 @@ export const AddDestinationPage = ({ currentUser }) => {
       isLiked: false,
       user_id: currentUser.id,
     });
+    await updateTravelHistory(currentUser.id, addedDestination.id); // Update travel history
     navigate("/destinations");
+  };
+
+  const updateTravelHistory = async (userId, destinationId) => {
+    try {
+      const travelHistoryResponse = await fetch(
+        `http://localhost:8088/travelHistory?user_id=${userId}`
+      );
+      const travelHistoryData = await travelHistoryResponse.json();
+
+      if (travelHistoryData.length > 0) {
+        // User already has travel history, update it
+        const userTravelHistory = travelHistoryData[0];
+        userTravelHistory.destination_ids.push(destinationId);
+
+        await fetch(
+          `http://localhost:8088/travelHistory/${userTravelHistory.id}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(userTravelHistory),
+          }
+        );
+      } else {
+        // User has no travel history, create a new entry
+        const newTravelHistory = {
+          user_id: userId,
+          destination_ids: [destinationId],
+        };
+
+        await fetch("http://localhost:8088/travelHistory", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newTravelHistory),
+        });
+      }
+    } catch (error) {
+      console.error("Error updating travel history:", error);
+    }
   };
 
   if (!currentUser) {
