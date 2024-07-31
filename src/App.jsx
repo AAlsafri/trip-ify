@@ -19,7 +19,7 @@ export const App = () => {
           </Authorized>
         }
       />
-      <Route path="/explorations" element={<UserExplorations />} /> {/* NEW */}
+      {/* //Here */}
     </Routes>
   );
 };
