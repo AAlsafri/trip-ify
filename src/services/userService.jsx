@@ -1,3 +1,4 @@
+// userService.jsx
 export const getUsers = () => {
   return fetch("http://localhost:8088/users").then((res) => res.json());
 };
@@ -44,4 +45,9 @@ export const deleteUser = async (id) => {
   await fetch(`http://localhost:8088/users/${id}`, {
     method: "DELETE",
   });
+};
+
+// NEW: Fetch all users
+export const getAllUsers = () => {
+  return fetch("http://localhost:8088/users").then((res) => res.json());
 };
