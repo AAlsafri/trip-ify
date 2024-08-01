@@ -1,0 +1,49 @@
+/* Container for the entire Exploration component */
+.exploration-container {
+  display: flex;
+  flex-direction: column;
+  align-items: first baseline;
+  padding: 10px;
+  background-color: #f4f4f4;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Title styling */
+.exploration-container h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* List styling */
+.exploration-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 600px;
+  list-style-type: none;
+  padding: 0;
+}
+
+/* List item styling */
+.exploration-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  margin: 10px 0;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive design */
+@media (min-width: 768px) {
+  .exploration-container {
+    padding: 40px;
+  }
+
+  .exploration-item {
+    padding: 15px 20px;
+  }
+}

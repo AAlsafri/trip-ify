@@ -11,9 +11,9 @@ export const NavBar = ({ currentUser }) => {
       <li className="navbar-item">
         <Link to="/explorations">Explorations</Link>
       </li>
-      {/* <li className="navbar-item">
-        <Link to="/users">Users</Link>
-      </li> */}
+      <li className="navbar-item">
+        <Link to="/journey">My Journey</Link>
+      </li>
       {localStorage.getItem("trip-ify_user") ? (
         <li className="navbar-item navbar-logout">
           <Link
