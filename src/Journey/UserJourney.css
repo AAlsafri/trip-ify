@@ -1,0 +1,58 @@
+.user-journey-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 10px;
+}
+
+.user-info {
+  width: 40%;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.journal-entry-form {
+  width: 55%;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.journal-entry-form form {
+  display: flex;
+  flex-direction: column;
+}
+
+.journal-entry-form label {
+  margin-bottom: 10px;
+}
+
+.journal-entry-form input,
+.journal-entry-form textarea {
+  padding: 8px;
+  margin-top: 5px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+.journal-entry-form button {
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.journal-entry-form button:hover {
+  background-color: #0056b3;
+}
+
+.journal-entries {
+  margin-top: 20px;
+}

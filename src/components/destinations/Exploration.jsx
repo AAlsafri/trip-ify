@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getTravelHistoryByUserId } from "../../services/travelHistoryService";
 import { useParams } from "react-router-dom";
+import "./Exploration.css";
 
 export const Exploration = () => {
   const { userId } = useParams();
@@ -17,10 +18,10 @@ export const Exploration = () => {
   }, [userId]);
 
   return (
-    <div>
+    <div className="exploration-container">
       <h2>Exploration</h2>
       {travelHistory.length > 0 ? (
-        <ul>
+        <ul className="exploration-list">
           {travelHistory.map((destinationId) => (
             <li key={destinationId}>
               <Link to={`/destinations/${destinationId}`}>

@@ -135,3 +135,4 @@ export const EditDestination = () => {
     </div>
   );
 };
+// Auto Nav to /destination right as you click btn for submit
