@@ -11,6 +11,7 @@ export const NavBar = ({ currentUser }) => {
   };
 
   return (
+
     <>
       <div className="navbar">
         <ul className="nav-links">
@@ -85,6 +86,33 @@ export const NavBar = ({ currentUser }) => {
         </li>
         <li>
           <Link to="/profile">Profile</Link>
+
+    <ul className="navbar">
+      <li className="navbar-item">
+        <Link to="/destinations">Destinations</Link>
+      </li>
+      <li className="navbar-item">
+        <Link to="/explorations">Explorations</Link>
+      </li>
+      <li className="navbar-item">
+        <Link to="/journey">My Journey</Link>
+      </li>
+      <li className="navbar-item">
+        <Link to="/profile">Profile</Link>
+      </li>
+      {localStorage.getItem("trip-ify_user") ? (
+        <li className="navbar-item navbar-logout">
+          <Link
+            className="navbar-link"
+            to=""
+            onClick={() => {
+              localStorage.removeItem("trip-ify_user");
+              navigate("/", { replace: true });
+            }}
+          >
+            Logout
+          </Link>
+
         </li>
         {localStorage.getItem("trip-ify_user") && (
           <li>
