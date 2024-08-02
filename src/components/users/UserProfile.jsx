@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { getUserById } from "../../services/userService";
 import { getDestinationsByUserId } from "../../services/destinationService";
-import { getJournalEntriesByUserId } from "../../services/journalService";
 import "./UserProfile.css"; // Create this CSS file for styling
+import { getJournalEntriesByUserId } from "../../services/journalServices";
 
 const UserProfile = ({ currentUser }) => {
   const [profile, setProfile] = useState({});
