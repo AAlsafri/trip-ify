@@ -1,21 +1,24 @@
-import "./Welcome.css";
+import "/src/index.css";
 
 export const Welcome = () => {
   return (
-    <div className="welcome-container">
-      <h1>
-        <span>Welcome to</span>
-        <span>[trip-ify] Global Explorer App</span>
-      </h1>
-      <div>
-        The best application for recording and tracking your visited
-        destinations and sharing them with others!
+    <div className="welcome-background">
+      <div className="welcome-text-box">
+        <h1 className="welcome-title">
+          <span>Welcome to</span>
+          <span>[trip-ify] Global Explorer App</span>
+        </h1>
+        <div className="welcome-text">
+          The best application for recording and tracking your visited
+          destinations and sharing them with others!
+        </div>
+        <p className="welcome-note">
+          **Please check out the navigation bar at the top for directions
+        </p>
+        {""}
+        {""}
+        {""}
       </div>
-      <p>**Please checkout the navigation bar at the top for direction</p>
-      {/* <p></p>
-      <p></p>
-      <p></p>
-      <p></p> */}
     </div>
   );
 };
