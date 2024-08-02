@@ -1,6 +1,6 @@
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "/src/index.css";
-import { useState } from "react";
 
 export const NavBar = ({ currentUser }) => {
   const navigate = useNavigate();
@@ -11,10 +11,12 @@ export const NavBar = ({ currentUser }) => {
   };
 
   return (
-
     <>
       <div className="navbar">
         <ul className="nav-links">
+          <li>
+            <Link to="/">Home</Link> {/* Home link added */}
+          </li>
           <li>
             <Link to="/destinations">Destinations</Link>
           </li>
@@ -57,6 +59,22 @@ export const NavBar = ({ currentUser }) => {
       </div>
       <ul className={`sidebar ${isSidebarVisible ? "visible" : "hidden"}`}>
         <li>
+          <a href="#" onClick={toggleSidebar}>
+            {" "}
+            {/* Add onClick to toggle sidebar */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="24px"
+              viewBox="0 -960 960 960"
+              width="24px"
+              fill="#5f6368"
+            >
+              <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+            </svg>
+          </a>
+          <Link to="/">Home</Link> {/* Home link added */}
+        </li>
+        <li>
           <Link to="/destinations">Destinations</Link>
         </li>
         <li>
@@ -67,33 +85,6 @@ export const NavBar = ({ currentUser }) => {
         </li>
         <li>
           <Link to="/profile">Profile</Link>
-
-    <ul className="navbar">
-      <li className="navbar-item">
-        <Link to="/destinations">Destinations</Link>
-      </li>
-      <li className="navbar-item">
-        <Link to="/explorations">Explorations</Link>
-      </li>
-      <li className="navbar-item">
-        <Link to="/journey">My Journey</Link>
-      </li>
-      <li className="navbar-item">
-        <Link to="/profile">Profile</Link>
-      </li>
-      {localStorage.getItem("trip-ify_user") ? (
-        <li className="navbar-item navbar-logout">
-          <Link
-            className="navbar-link"
-            to=""
-            onClick={() => {
-              localStorage.removeItem("trip-ify_user");
-              navigate("/", { replace: true });
-            }}
-          >
-            Logout
-          </Link>
-
         </li>
         {localStorage.getItem("trip-ify_user") && (
           <li>
