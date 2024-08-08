@@ -20,9 +20,11 @@ export const Destination = ({ destination, onDelete }) => {
           <div>Is this a favorite destination?</div>
           <div>{destination.isLiked ? "Yes!" : "No."}</div>
         </div>
-        <button onClick={handleDelete}>Delete</button>
+        <button className="button" onClick={handleDelete}>
+          Delete
+        </button>
         <Link to={`/destinations/${destination.id}/edit`}>
-          {/* <button>Edit</button> */}
+          {/* <button className="button">Edit</button> */}
         </Link>
       </footer>
     </section>

@@ -1,41 +1,180 @@
-
 .destinations-container {
-  margin: 1rem 5rem 0rem 5rem;
+  flex-grow: 1; /* Allow the container to grow and fill the space */
+  margin-left: auto; /* Space outside the border */
+}
+
+.destinations-page {
+  display: flex;
+  padding: 2rem; /* Adjust as needed */
+}
+
+.header-and-destinations {
+  display: flex; /* Create a flex container */
+  gap: 2rem; /* Space between header and destinations */
+}
+
+.destinations-header {
+  border-top: 7px solid #ebb064; /* Top border */
+  border-left: 7px solid #ebb064; /* Left border */
+  border-radius: 2px; /* Rounded corners */
+  padding: 35px; /* Space inside the border */
+  background-color: #fff; /* Background color inside the border */
+  width: 350px; /* Increase width */
+  height: 500px; /* Set a specific height */
+  position: fixed; /* Fix the header */
+  top: 90px; /* Adjust based on your navbar height */
+  left: 145px; /* Adjust to desired position */
+  box-sizing: border-box;
+}
+
+/* Add specific styles for the elements inside the header */
+.destinations-header h2 {
+  margin-bottom: 1rem; /* Space below the heading */
+}
+
+.destinations-header .add-destination-button {
+  margin-top: 1rem; /* Space above the button */
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #008cba; /* Blue background */
+  color: white; /* White text */
+  text-decoration: none; /* Remove underline */
+  border-radius: 4px; /* Rounded corners */
+  transition: background-color 0.3s; /* Smooth background color transition */
+}
+
+.destinations-header .add-destination-button:hover {
+  background-color: #005f5f; /* Darker background on hover */
+}
+
+.filter-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* Space between elements */
+}
+
+.filter-btn,
+.add-destination-button,
+.button {
+  background-color: #008cba; /* Blue background */
+  border: none; /* Remove borders */
+  color: white; /* White text */
+  padding: 10px 20px; /* Some padding */
+  text-align: center; /* Center the text */
+  text-decoration: none; /* Remove underline */
+  display: inline-block; /* Make the button inline-block */
+  font-size: 16px; /* Increase font size */
+  margin: 4px 2px; /* Some margin */
+  cursor: pointer; /* Pointer/hand icon */
+  border-radius: 8px; /* Rounded corners */
+  transition: background-color 0.3s; /* Smooth background color transition */
+}
+
+.filter-btn:hover,
+.add-destination-button:hover,
+.button:hover {
+  background-color: #005f5f; /* Darker background on hover */
+}
+
+.destination-search {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
 }
 
 .destinations {
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
+  margin-left: 420px; /* Ensure the destinations align next to the header */
+  margin-right: 600px;
+  width: 50%;
+  height: 200vh;
 }
 
 .destination {
   background-color: white;
   border: 1px solid;
   margin: 0.5rem 0;
-  border-radius: 0.5rem;
-  padding: 0.5rem;
+  border-radius: 0.6rem;
+  padding: 0rem;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
 }
 
 .destination > * {
   padding: 0.5rem;
 }
 
-.destination-info {
-  color: var(--outline);
-  font-family: "Roboto", sans-serif;
-}
-
 .destination > footer {
   display: flex;
-  border-top: 1px solid var(--outline);
-  align-items: center;
-  justify-content: space-between;
+  justify-content: space-between; /* Space between the button and the details */
+  gap: 1px; /* Space between elements */
+}
+
+.destination > footer .button {
+  margin-left: auto;
 }
 
 .destination > footer > * {
   flex-basis: 22%;
 }
 
-.filter-btn {
-  margin-right: 2rem;
+.button {
+  background-color: #008cba; /* Blue background */
+  border: none; /* Remove borders */
+  color: white; /* White text */
+  padding: 10px 20px; /* Some padding */
+  text-align: center; /* Center the text */
+  text-decoration: none; /* Remove underline */
+  display: inline-block; /* Make the button inline-block */
+  font-size: 16px; /* Increase font size */
+  margin: 40px 2px; /* Some margin */
+  cursor: pointer; /* Pointer/hand icon */
+  border-radius: 8px; /* Rounded corners */
+  transition: background-color 0.3s; /* Smooth background color transition */
+}
+
+.button:hover {
+  background-color: #005f5f; /* Darker background on hover */
+}
+
+.heart-emoji {
+  position: fixed; /* Position the heart emoji absolutely */
+  top: 10px; /* Adjust the top position as needed */
+  left: 10px; /* Adjust the right position as needed */
+  font-size: 24px; /* Adjust the size as needed */
+  /* Ensure it appears on top of other elements */
+}
+
+/* New element for right and bottom borders */
+.bottom-right-borders {
+  position: fixed;
+  bottom: 0;
+  right: 145px;
+  height: 7px;
+  width: 7px;
+}
+
+.bottom-right-borders::before,
+.bottom-right-borders::after {
+  content: "";
+  position: absolute;
+  //background-color: #ebb064; /* Border color */
+}
+
+.bottom-right-borders::before {
+  width: 350px; /* Width of the viewport */
+  height: 7px; /* Border height */
+  bottom: 145px;
+  right: 90px;
+}
+
+.bottom-right-borders::after {
+  width: 7px; /* Border width */
+  height: 500px; /* Height of the viewport */
+  bottom: 145px;
+  right: 90px;
 }
