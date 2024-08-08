@@ -12,7 +12,7 @@ body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   justify-content: center;
   align-items: center;
-  padding-top: 70px;
+  padding-top: 40px;
 }
 
 .welcome-background {
@@ -28,6 +28,7 @@ body {
   justify-content: center;
   align-items: center;
 }
+
 .welcome-text-box {
   background-color: transparent;
   backdrop-filter: blur(10px); /* Blurring the background */

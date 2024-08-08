@@ -71,24 +71,27 @@ export const DestinationList = ({ currentUser }) => {
   };
 
   return (
-    <div className="destinations-container">
-      <h2>Destinations</h2>
-      <DestinationFilterBar
-        setShowLiked={setShowLiked}
-        setSearchTerm={setSearchTerm}
-      />
-      <Link to="/destinations/add" className="add-destination-button">
-        Add Destination
-      </Link>
-      <article className="destinations">
-        {filteredDestinations.map((destinationObj) => (
-          <Destination
-            key={destinationObj.id}
-            destination={destinationObj}
-            onDelete={handleDelete}
+    <div className="destinations-page">
+      <div class="bottom-right-borders">
+        <div className="destinations-header">
+          <h2>Destinations</h2>
+          <DestinationFilterBar
+            setShowLiked={setShowLiked}
+            setSearchTerm={setSearchTerm}
           />
-        ))}
-      </article>
+        </div>
+      </div>
+      <div className="destinations-container">
+        <article className="destinations">
+          {filteredDestinations.map((destinationObj) => (
+            <Destination
+              key={destinationObj.id}
+              destination={destinationObj}
+              onDelete={handleDelete}
+            />
+          ))}
+        </article>
+      </div>
     </div>
   );
 };
