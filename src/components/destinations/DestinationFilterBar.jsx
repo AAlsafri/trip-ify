@@ -1,6 +1,16 @@
+import { Link } from "react-router-dom";
+
 export const DestinationFilterBar = ({ setShowLiked, setSearchTerm }) => {
   return (
     <div className="filter-bar">
+      <input
+        onChange={(event) => {
+          setSearchTerm(event.target.value);
+        }}
+        type="text"
+        placeholder="Search Destinations"
+        className="destination-search"
+      />
       <button
         className="filter-btn btn-primary"
         onClick={() => {
@@ -17,14 +27,9 @@ export const DestinationFilterBar = ({ setShowLiked, setSearchTerm }) => {
       >
         Show All Destinations
       </button>
-      <input
-        onChange={(event) => {
-          setSearchTerm(event.target.value);
-        }}
-        type="text"
-        placeholder="Search Destinations"
-        className="destination-search"
-      />
+      <Link to="/destinations/add" className="filter-btn btn-primary">
+        Add Destination
+      </Link>
     </div>
   );
 };
