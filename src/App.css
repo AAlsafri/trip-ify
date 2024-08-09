@@ -13,21 +13,67 @@
   gap: 2rem; /* Space between header and destinations */
 }
 
+/* New top-left-borders class */
+.top-left-borders {
+  position: fixed;
+  top: 50%; /* Initial top position (centered) */
+  left: 50%; /* Initial left position (centered) */
+  transform: translate(-50%, -50%); /* Center it */
+  width: 350px;
+  height: 500px;
+  z-index: 10;
+  animation: moveTopLeft 1s forwards; /* Apply the animation */
+}
+
+/* Adjust destinations-header to handle the content */
 .destinations-header {
-  border-top: 7px solid #ebb064; /* Top border */
-  border-left: 7px solid #ebb064; /* Left border */
-  border-radius: 2px; /* Rounded corners */
-  padding: 35px; /* Space inside the border */
-  background-color: #fff; /* Background color inside the border */
-  width: 350px; /* Increase width */
-  height: 500px; /* Set a specific height */
-  position: fixed; /* Fix the header */
-  top: 90px; /* Adjust based on your navbar height */
-  left: 145px; /* Adjust to desired position */
+  position: relative;
+  border-top: 7px solid #ebb064;
+  border-left: 7px solid #ebb064;
+  border-radius: 2px;
+  padding: 35px;
+  background-color: transparent;
+  width: 450px; /* Increase width */
+  height: 600px; /* Set a specific height */
+  top: -50%; /* Center vertically */
+  left: -200%; /* Center horizontally */
   box-sizing: border-box;
 }
 
-/* Add specific styles for the elements inside the header */
+/* Keyframes for moving the top-left borders */
+@keyframes moveTopLeft {
+  to {
+    top: 27%; /* Final top position */
+    left: 33%; /* Final left position */
+    transform: none; /* Remove the centering transformation */
+  }
+}
+
+/* Bottom-right borders remain as is */
+.bottom-right-borders {
+  position: fixed;
+  right: 50%; /* Initial position for the right property */
+  bottom: 50%; /* Initial position for the bottom property */
+  width: 450px;
+  height: 600px;
+  z-index: 10;
+  animation: moveBottomRight 1s forwards; /* Apply the animation */
+}
+
+@keyframes moveBottomRight {
+  to {
+    bottom: 30px; /* Final bottom position for bottom-right borders */
+    right: -270px; /* Final right position for bottom-right borders */
+    transform: none; /* Remove the centering transformation */
+  }
+}
+
+/* Ensure the destination cards are hidden initially */
+.destinations {
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
 .destinations-header h2 {
   margin-bottom: 1rem; /* Space below the heading */
 }
@@ -90,10 +136,9 @@
   align-items: center;
   margin-left: 400px; /* Ensure the destinations align next to the header */
   margin-right: 600px;
-  margin-top: -430px;
+  margin-top: 20px; /* Adjust this value to position the cards correctly */
   width: 55%;
-  height: 71vh;
-  /* border: 2px solid black; */
+  height: 80vh;
   padding: 10px;
   box-sizing: border-box;
   overflow-y: auto;
@@ -152,32 +197,26 @@
   margin-left: 10px; /* Adjust the spacing as needed */
 }
 
-/* New element for right and bottom borders */
-.bottom-right-borders {
-  position: fixed;
-  bottom: 90px; /* Match the top offset of the header */
-  right: 145px; /* Match the left offset of the header */
-  width: 350px; /* Match the width of the header */
-  height: 493px; /* Match the height of the header */
-}
-
+/* Bottom-right border elements to create the bottom and right borders */
 .bottom-right-borders::before,
 .bottom-right-borders::after {
   content: "";
   position: absolute;
-  background-color: #ebb064; /* Border color */
+  background-color: #ebb064;
 }
 
 .bottom-right-borders::before {
-  width: 350px; /* Width of the border (same as the header width) */
-  height: 7px; /* Border height */
-  top: 100%; /* Position below the .bottom-right-borders */
-  left: 0; /* Align to the left edge of .bottom-right-borders */
+  width: 450px; /* Match the new width of the header */
+  height: 7px; /* Height of the bottom border */
+  top: 49%; /* Adjust as needed */
+  left: 50%; /* Adjust as needed */
+  transform: translateX(-250%); /* Adjust as needed */
 }
 
 .bottom-right-borders::after {
-  width: 7px; /* Border width */
-  height: 500px; /* Height of the border (same as the header height) */
-  top: 0; /* Align to the top edge of .bottom-right-borders */
-  left: 100%; /* Position to the right of .bottom-right-borders */
+  width: 7px; /* Width of the right border */
+  height: 600px; /* Match the new height of the header */
+  top: 54%; /* Adjust as needed */
+  left: -101%; /* Adjust as needed */
+  transform: translateY(-104%); /* Adjust as needed */
 }

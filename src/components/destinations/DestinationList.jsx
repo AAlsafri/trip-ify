@@ -59,17 +59,22 @@ export const DestinationList = ({ currentUser }) => {
     setFilteredDestinations(foundDestinations);
   }, [searchTerm, showLiked, allDestinations]);
 
+  // Trigger animation on load
   useEffect(() => {
-    if (headerRef.current && containerRef.current) {
-      const headerRect = headerRef.current.getBoundingClientRect();
-      const containerRect = containerRef.current.getBoundingClientRect();
+    const header = document.querySelector(".destinations-header");
+    const bottomRightBorders = document.querySelector(".bottom-right-borders");
+    const destinations = document.querySelector(".destinations");
 
-      console.log("Header Size and Position:", headerRect);
-      console.log("Container Size and Position:", containerRect);
+    // Trigger the animation after a brief delay
+    setTimeout(() => {
+      header.style.animation = "splitBorders 1s forwards";
+      bottomRightBorders.style.animation = "moveBottomRight 1s forwards";
 
-      // Example: Adjust the position of another element based on these sizes
-      containerRef.current.style.marginTop = `${headerRect.height + 20}px`;
-    }
+      // Show the destination cards after the animation
+      setTimeout(() => {
+        destinations.style.opacity = 1;
+      }, 1000); // Delay to match the animation duration
+    }, 500); // Delay before starting the animation
   }, []);
 
   // Handler to delete a destination and update the state
