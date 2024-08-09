@@ -148,11 +148,8 @@
 }
 
 .heart-emoji {
-  position: fixed; /* Position the heart emoji absolutely */
-  top: 10px; /* Adjust the top position as needed */
-  left: 10px; /* Adjust the right position as needed */
-  font-size: 24px; /* Adjust the size as needed */
-  /* Ensure it appears on top of other elements */
+  font-size: 24px;
+  margin-left: 10px; /* Adjust the spacing as needed */
 }
 
 /* New element for right and bottom borders */
