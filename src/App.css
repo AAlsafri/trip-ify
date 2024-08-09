@@ -84,13 +84,19 @@
 }
 
 .destinations {
+  position: fixed;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  margin-left: 420px; /* Ensure the destinations align next to the header */
+  align-items: center;
+  margin-left: 400px; /* Ensure the destinations align next to the header */
   margin-right: 600px;
-  width: 50%;
-  height: 200vh;
+  margin-top: -430px;
+  width: 55%;
+  height: 71vh;
+  /* border: 2px solid black; */
+  padding: 10px;
+  box-sizing: border-box;
+  overflow-y: auto;
 }
 
 .destination {
@@ -152,29 +158,29 @@
 /* New element for right and bottom borders */
 .bottom-right-borders {
   position: fixed;
-  bottom: 0;
-  right: 145px;
-  height: 7px;
-  width: 7px;
+  bottom: 90px; /* Match the top offset of the header */
+  right: 145px; /* Match the left offset of the header */
+  width: 350px; /* Match the width of the header */
+  height: 493px; /* Match the height of the header */
 }
 
 .bottom-right-borders::before,
 .bottom-right-borders::after {
   content: "";
   position: absolute;
-  //background-color: #ebb064; /* Border color */
+  background-color: #ebb064; /* Border color */
 }
 
 .bottom-right-borders::before {
-  width: 350px; /* Width of the viewport */
+  width: 350px; /* Width of the border (same as the header width) */
   height: 7px; /* Border height */
-  bottom: 145px;
-  right: 90px;
+  top: 100%; /* Position below the .bottom-right-borders */
+  left: 0; /* Align to the left edge of .bottom-right-borders */
 }
 
 .bottom-right-borders::after {
   width: 7px; /* Border width */
-  height: 500px; /* Height of the viewport */
-  bottom: 145px;
-  right: 90px;
+  height: 500px; /* Height of the border (same as the header height) */
+  top: 0; /* Align to the top edge of .bottom-right-borders */
+  left: 100%; /* Position to the right of .bottom-right-borders */
 }

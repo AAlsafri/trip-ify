@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   getAllDestinations,
   deleteDestination,
 } from "../../services/destinationService";
 import { Destination } from "./Destination";
 import { DestinationFilterBar } from "./DestinationFilterBar";
-import { Link } from "react-router-dom";
 import "./Destinations.css";
 
 export const DestinationList = ({ currentUser }) => {
@@ -13,6 +12,9 @@ export const DestinationList = ({ currentUser }) => {
   const [showLiked, setShowLiked] = useState(false);
   const [filteredDestinations, setFilteredDestinations] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+
+  const headerRef = useRef(null); // Reference to the header
+  const containerRef = useRef(null); // Reference to the container
 
   // Function to fetch all destinations and set the state
   const fetchDestinations = () => {
@@ -57,6 +59,19 @@ export const DestinationList = ({ currentUser }) => {
     setFilteredDestinations(foundDestinations);
   }, [searchTerm, showLiked, allDestinations]);
 
+  useEffect(() => {
+    if (headerRef.current && containerRef.current) {
+      const headerRect = headerRef.current.getBoundingClientRect();
+      const containerRect = containerRef.current.getBoundingClientRect();
+
+      console.log("Header Size and Position:", headerRect);
+      console.log("Container Size and Position:", containerRect);
+
+      // Example: Adjust the position of another element based on these sizes
+      containerRef.current.style.marginTop = `${headerRect.height + 20}px`;
+    }
+  }, []);
+
   // Handler to delete a destination and update the state
   const handleDelete = (id) => {
     deleteDestination(id)
@@ -72,8 +87,8 @@ export const DestinationList = ({ currentUser }) => {
 
   return (
     <div className="destinations-page">
-      <div class="bottom-right-borders">
-        <div className="destinations-header">
+      <div className="bottom-right-borders">
+        <div ref={headerRef} className="destinations-header">
           <h2>Destinations</h2>
           <DestinationFilterBar
             setShowLiked={setShowLiked}
@@ -81,7 +96,7 @@ export const DestinationList = ({ currentUser }) => {
           />
         </div>
       </div>
-      <div className="destinations-container">
+      <div ref={containerRef} className="destinations-container">
         <article className="destinations">
           {filteredDestinations.map((destinationObj) => (
             <Destination
