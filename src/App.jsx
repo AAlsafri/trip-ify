@@ -4,7 +4,6 @@ import { Login } from "./components/auth/Login";
 import { Register } from "./components/auth/Register";
 import { Authorized } from "./views/Authorized";
 import { ApplicationViews } from "./views/ApplicationViews";
-import UserExplorations from "./components/users/UserExplorations";
 
 export const App = () => {
   return (
