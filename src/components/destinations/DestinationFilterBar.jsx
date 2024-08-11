@@ -27,9 +27,9 @@ export const DestinationFilterBar = ({ setShowLiked, setSearchTerm }) => {
       >
         Show All Destinations
       </button>
-      <Link to="/destinations/add" className="filter-btn btn-primary">
+      {/* <Link to="/destinations/add" className="filter-btn btn-primary">
         Add Destination
-      </Link>
+      </Link> */}
     </div>
   );
 };

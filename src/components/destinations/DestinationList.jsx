@@ -2,21 +2,26 @@ import { useEffect, useRef, useState } from "react";
 import {
   getAllDestinations,
   deleteDestination,
+  getDestinationById,
+  updateDestination,
 } from "../../services/destinationService";
 import { Destination } from "./Destination";
 import { DestinationFilterBar } from "./DestinationFilterBar";
 import "./Destinations.css";
+import { AddDestinationPage } from "./AddDestinationForm";
+import { EditDestinationForm } from "./EditDestination";
 
 export const DestinationList = ({ currentUser }) => {
   const [allDestinations, setAllDestinations] = useState([]);
   const [showLiked, setShowLiked] = useState(false);
   const [filteredDestinations, setFilteredDestinations] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [showForm, setShowForm] = useState(false); // State for add form visibility
+  const [editDestination, setEditDestination] = useState(null); // State for edit form
 
   const headerRef = useRef(null); // Reference to the header
   const containerRef = useRef(null); // Reference to the container
 
-  // Function to fetch all destinations and set the state
   const fetchDestinations = () => {
     getAllDestinations()
       .then((destinationsArray) => {
@@ -59,25 +64,21 @@ export const DestinationList = ({ currentUser }) => {
     setFilteredDestinations(foundDestinations);
   }, [searchTerm, showLiked, allDestinations]);
 
-  // Trigger animation on load
   useEffect(() => {
     const header = document.querySelector(".destinations-header");
     const bottomRightBorders = document.querySelector(".bottom-right-borders");
     const destinations = document.querySelector(".destinations");
 
-    // Trigger the animation after a brief delay
     setTimeout(() => {
       header.style.animation = "splitBorders 1s forwards";
       bottomRightBorders.style.animation = "moveBottomRight 1s forwards";
 
-      // Show the destination cards after the animation
       setTimeout(() => {
         destinations.style.opacity = 1;
       }, 1000); // Delay to match the animation duration
     }, 500); // Delay before starting the animation
   }, []);
 
-  // Handler to delete a destination and update the state
   const handleDelete = (id) => {
     deleteDestination(id)
       .then(() => {
@@ -90,6 +91,23 @@ export const DestinationList = ({ currentUser }) => {
       });
   };
 
+  const handleAddClick = () => {
+    setShowForm(true);
+    setEditDestination(null); // Hide the edit form if it's showing
+  };
+
+  const handleFormSubmit = () => {
+    setShowForm(false);
+    setEditDestination(null); // Hide the edit form
+    fetchDestinations(); // Refresh the list after adding/editing a destination
+  };
+
+  const handleEditClick = async (id) => {
+    const destinationToEdit = await getDestinationById(id);
+    setEditDestination(destinationToEdit); // Set the destination to edit
+    setShowForm(false); // Hide the add form if it's showing
+  };
+
   return (
     <div className="destinations-page">
       <div className="bottom-right-borders">
@@ -99,18 +117,37 @@ export const DestinationList = ({ currentUser }) => {
             setShowLiked={setShowLiked}
             setSearchTerm={setSearchTerm}
           />
+          {!showForm && !editDestination && (
+            <button onClick={handleAddClick} className="add-form-button">
+              Add Destination
+            </button>
+          )}
         </div>
       </div>
       <div ref={containerRef} className="destinations-container">
-        <article className="destinations">
-          {filteredDestinations.map((destinationObj) => (
-            <Destination
-              key={destinationObj.id}
-              destination={destinationObj}
-              onDelete={handleDelete}
-            />
-          ))}
-        </article>
+        {showForm ? (
+          <AddDestinationPage
+            currentUser={currentUser}
+            onFormSubmit={handleFormSubmit}
+          />
+        ) : editDestination ? (
+          <EditDestinationForm
+            currentUser={currentUser}
+            destination={editDestination}
+            onFormSubmit={handleFormSubmit}
+          />
+        ) : (
+          <article className="destinations">
+            {filteredDestinations.map((destinationObj) => (
+              <Destination
+                key={destinationObj.id}
+                destination={destinationObj}
+                onDelete={handleDelete}
+                onEditClick={() => handleEditClick(destinationObj.id)}
+              />
+            ))}
+          </article>
+        )}
       </div>
     </div>
   );

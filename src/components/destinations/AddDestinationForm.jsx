@@ -3,7 +3,7 @@ import { addNewDestination } from "../../services/destinationService";
 import "./Destinations.css";
 import { useNavigate } from "react-router-dom";
 
-export const AddDestinationPage = ({ currentUser }) => {
+export const AddDestinationPage = ({ currentUser, onFormSubmit }) => {
   const [newDestination, setNewDestination] = useState({
     name: "",
     country: "",
@@ -54,6 +54,8 @@ export const AddDestinationPage = ({ currentUser }) => {
       user_id: currentUser.id,
     });
     await updateTravelHistory(currentUser.id, addedDestination.id); // Update travel history
+
+    onFormSubmit(); // Call the onFormSubmit prop to exit the form
     navigate("/destinations");
   };
 
@@ -105,6 +107,17 @@ export const AddDestinationPage = ({ currentUser }) => {
 
   return (
     <div className="add-destination-form">
+      <button className="close-button" onClick={onFormSubmit}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="24px"
+          viewBox="0 -960 960 960"
+          width="24px"
+          fill="#5f6368"
+        >
+          <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+        </svg>
+      </button>
       <h2>Add New Destination</h2>
       <form onSubmit={handleSubmit}>
         <div>

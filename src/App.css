@@ -283,20 +283,55 @@
   color: #f60000;
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9); /* Slightly scale down */
+  }
+  to {
+    opacity: 1;
+    transform: scale(1); /* Original scale */
+  }
+}
+
 .add-destination-form {
-  border: 3px solid #ebb064; /* Border with a specific color */
+  position: relative;
+  border: 3px solid; /* Border with a specific color */
+  margin: 0.5rem 0;
   border-radius: 8px; /* Rounded corners */
-  padding: 50px; /* Padding inside the box */
+  padding: 60px; /* Padding inside the box */
   background-color: #fff; /* White background color */
   width: 400px; /* Set a specific width */
-  margin: 20px auto; /* Center the box with auto margin */
+  margin: 40px auto; /* Center the box with auto margin */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
   box-sizing: border-box; /* Include padding and border in the element's width and height */
+  opacity: 0; /* Start hidden */
+  animation: fadeIn 0.6s forwards ease-in-out; /* Apply the animation */
 }
 
 .add-destination-form h2 {
   margin-bottom: 1rem; /* Space below the heading */
   text-align: center; /* Center the heading text */
+}
+.add-destination-form .close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  opacity: 0.5; /* Slightly hidden by default */
+  transition: opacity 0.3s ease;
+}
+.add-destination-form .close-button:hover {
+  opacity: 1; /* Fully visible on hover */
+}
+
+.add-destination-form .close-button svg {
+  width: 25px;
+  height: 30px;
+  fill: #5f6368; /* Icon color */
 }
 
 .add-destination-form label {
@@ -327,6 +362,13 @@
   transition: background-color 0.3s; /* Smooth background color transition */
 }
 
+/* [ X hover is here] */
+.add-destination-form .close-button svg:hover {
+  fill: #333; /* Darker color on hover */
+  transform: scale(1.1); /* Slightly enlarge on hover */
+  transition: fill 0.3s ease, transform 0.3s ease; /* Smooth transition */
+}
+
 .add-destination-form button:hover {
   background-color: #005f5f; /* Darker background on hover */
 }
@@ -346,4 +388,24 @@
 .destinations a:hover {
   color: blue; /* Change the color on hover */
   text-decoration: none; /* Optionally, add an underline on hover */
+}
+
+.add-form-button {
+  background-color: #008cba; /* Blue background */
+  border: none; /* Remove borders */
+  color: white; /* White text */
+  padding: 10px 20px; /* Padding to match the filter buttons */
+  text-align: center; /* Center the text */
+  text-decoration: none; /* Remove underline */
+  display: inline-block; /* Make the button inline-block */
+  font-size: 16px; /* Font size to match the filter buttons */
+  margin: 20px 2px; /* Some margin to match the filter buttons */
+  cursor: pointer; /* Pointer/hand icon */
+  border-radius: 8px; /* Rounded corners */
+  transition: background-color 0.3s; /* Smooth background color transition */
+  width: 100%; /* Stretch the button to fill the available width */
+}
+
+.add-form-button:hover {
+  background-color: #005f5f; /* Darker background on hover */
 }

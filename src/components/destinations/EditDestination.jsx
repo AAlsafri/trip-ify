@@ -1,47 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import {
-  getDestinationById,
-  updateDestination,
-} from "../../services/destinationService";
-import { getAllContinents } from "../../services/continentService"; // Ensure this service exists or is replaced with hardcoded values
+import { useNavigate } from "react-router-dom";
+import { updateDestination } from "../../services/destinationService";
+import { getAllContinents } from "../../services/continentService";
 import "./Destinations.css";
 
-export const EditDestination = () => {
-  const { id } = useParams(); // Use useParams to get the ID from the URL
-  const navigate = useNavigate(); // Use useNavigate for navigation
-
-  const [destination, setDestination] = useState({
-    name: "",
-    country: "",
-    state: "",
-    continent_id: "",
-    details: "",
-    isLiked: false,
-    id: "", // Ensure id is part of the destination object
-  });
+export const EditDestinationForm = ({ destination, onFormSubmit }) => {
+  const navigate = useNavigate();
+  const [editedDestination, setEditedDestination] = useState(destination);
   const [continents, setContinents] = useState([]);
 
   useEffect(() => {
-    const fetchDestination = async () => {
-      const dest = await getDestinationById(id);
-      if (dest) {
-        setDestination(dest);
-      }
-    };
-
     const fetchContinents = async () => {
-      const conts = await getAllContinents(); // Adjust if using hardcoded values
+      const conts = await getAllContinents();
       setContinents(conts);
     };
 
-    fetchDestination();
     fetchContinents();
-  }, [id]);
+  }, []);
 
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
-    setDestination((prevDestination) => ({
+    setEditedDestination((prevDestination) => ({
       ...prevDestination,
       [name]: type === "checkbox" ? checked : value,
     }));
@@ -49,29 +28,37 @@ export const EditDestination = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (!destination.id) {
-      console.error("Destination ID is missing");
-      return;
-    }
     try {
-      await updateDestination(destination); // Ensure destination object includes the id
-      navigate("/destinations", { replace: true });
-      // Redirect to the destinations list
+      await updateDestination(editedDestination);
+      onFormSubmit(); // Close the form and refresh the list
+      navigate("/destinations");
     } catch (error) {
       console.error("Failed to update destination:", error);
     }
   };
 
   return (
-    <div className="destination-form">
-      <form onSubmit={handleSubmit} className="destination-form-wrapper">
+    <div className="add-destination-form">
+      <button className="close-button" onClick={onFormSubmit}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="24px"
+          viewBox="0 -960 960 960"
+          width="24px"
+          fill="#5f6368"
+        >
+          <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+        </svg>
+      </button>
+      <h2>Edit Destination</h2>
+      <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="name">Name:</label>
           <input
             type="text"
             id="name"
             name="name"
-            value={destination.name}
+            value={editedDestination.name}
             onChange={handleChange}
           />
         </div>
@@ -81,7 +68,7 @@ export const EditDestination = () => {
             type="text"
             id="country"
             name="country"
-            value={destination.country}
+            value={editedDestination.country}
             onChange={handleChange}
           />
         </div>
@@ -91,7 +78,7 @@ export const EditDestination = () => {
             type="text"
             id="state"
             name="state"
-            value={destination.state}
+            value={editedDestination.state}
             onChange={handleChange}
           />
         </div>
@@ -100,7 +87,7 @@ export const EditDestination = () => {
           <select
             id="continent_id"
             name="continent_id"
-            value={destination.continent_id}
+            value={editedDestination.continent_id}
             onChange={handleChange}
           >
             <option value="">Select Continent</option>
@@ -116,7 +103,7 @@ export const EditDestination = () => {
           <textarea
             id="details"
             name="details"
-            value={destination.details}
+            value={editedDestination.details}
             onChange={handleChange}
           />
         </div>
@@ -126,11 +113,13 @@ export const EditDestination = () => {
             type="checkbox"
             id="isLiked"
             name="isLiked"
-            checked={destination.isLiked}
+            checked={editedDestination.isLiked}
             onChange={handleChange}
           />
         </div>
-        <button type="submit">Update Destination</button>
+        <button type="submit" className="add-form-button">
+          Update Destination
+        </button>
       </form>
     </div>
   );

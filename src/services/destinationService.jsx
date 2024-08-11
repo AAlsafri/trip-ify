@@ -105,17 +105,24 @@ export const deleteDestination = async (destinationId) => {
   }
 };
 
-export const updateDestination = async (id, destination) => {
+export const updateDestination = async (destination) => {
   try {
-    const response = await fetch(`${apiUrl}/destinations/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(destination),
-    });
-    if (!response.ok) throw new Error("Failed to update destination");
-    return response.json();
+    const response = await fetch(
+      `http://localhost:8088/destinations/${destination.id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(destination),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to update destination");
+    }
+
+    return await response.json();
   } catch (error) {
     console.error("Error updating destination:", error);
     throw error;
