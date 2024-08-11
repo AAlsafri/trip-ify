@@ -15,10 +15,13 @@ export const Destination = ({ destination, onDelete }) => {
         }}
       >
         <Link to={`/destinations/${destination.id}`}>
-          <h3>
+          <h3 style={{ margin: 0 }}>
             #{destination.id} {destination.name}
           </h3>
         </Link>
+        <p style={{ margin: "0 auto", fontSize: "0.9rem", color: "#555" }}>
+          Visited on: {destination.visitedDate} {destination.daysAgo}
+        </p>
         {destination.isLiked && (
           <span className="heart-emoji" role="img" aria-label="heart">
             ❤️

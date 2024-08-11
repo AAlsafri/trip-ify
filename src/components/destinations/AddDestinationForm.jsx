@@ -11,6 +11,7 @@ export const AddDestinationPage = ({ currentUser }) => {
     continent: "",
     details: "",
     isLiked: false,
+    visitedDate: "", // Add the visitedDate field
     user_id: currentUser ? currentUser.id : null, // Handle undefined case
   });
 
@@ -49,6 +50,7 @@ export const AddDestinationPage = ({ currentUser }) => {
       continent: "",
       details: "",
       isLiked: false,
+      visitedDate: "", // Reset the visitedDate field
       user_id: currentUser.id,
     });
     await updateTravelHistory(currentUser.id, addedDestination.id); // Update travel history
@@ -102,7 +104,7 @@ export const AddDestinationPage = ({ currentUser }) => {
   }
 
   return (
-    <div className="destination-form-wrapper">
+    <div className="add-destination-form">
       <h2>Add New Destination</h2>
       <form onSubmit={handleSubmit}>
         <div>
@@ -173,6 +175,17 @@ export const AddDestinationPage = ({ currentUser }) => {
                 isLiked: !newDestination.isLiked,
               })
             }
+          />
+        </div>
+        <div>
+          <label htmlFor="visitedDate">Visited On:</label>
+          <input
+            type="date"
+            id="visitedDate"
+            name="visitedDate"
+            value={newDestination.visitedDate}
+            onChange={handleChange}
+            required
           />
         </div>
         <button type="submit">Add Destination</button>

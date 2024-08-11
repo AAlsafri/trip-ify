@@ -1,3 +1,24 @@
+.video-background {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  z-index: -1;
+  opacity: 0.5; /* Adjust the opacity if needed */
+  object-fit: cover;
+}
+
+.video-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
+}
+
 .destinations-container {
   flex-grow: 1; /* Allow the container to grow and fill the space */
   margin-left: auto; /* Space outside the border */
@@ -18,7 +39,7 @@
   border-left: 7px solid #ebb064; /* Left border */
   border-radius: 2px; /* Rounded corners */
   padding: 35px; /* Space inside the border */
-  background-color: #fff; /* Background color inside the border */
+  background-color: transparent; /* Background color inside the border */
   width: 350px; /* Increase width */
   height: 500px; /* Set a specific height */
   position: fixed; /* Fix the header */
@@ -27,9 +48,11 @@
   box-sizing: border-box;
 }
 
-/* Add specific styles for the elements inside the header */
 .destinations-header h2 {
-  margin-bottom: 1rem; /* Space below the heading */
+  margin-bottom: 2rem; /* Space below the heading */
+  font-size: 3rem; /* Adjust this value to make the H2 larger or smaller */
+  font-weight: bold; /* Optional: Make the text bold */
+  color: #000; /* Optional: Change the color */
 }
 
 .destinations-header .add-destination-button {
@@ -81,6 +104,8 @@
   font-size: 16px;
   border-radius: 4px;
   border: 1px solid #ccc;
+  background-color: rgba(255, 255, 255, 0.3); /* Semi-transparent background */
+  backdrop-filter: blur(10px); /* Apply the blur effect */
 }
 
 .destinations {
@@ -97,37 +122,99 @@
   padding: 20px;
   box-sizing: border-box;
   overflow-y: auto;
-  opacity: 0; /* Start hidden */
-  transition: opacity 0.1s ease-in-out; /* Fade in animation */
 }
 
-.destinations.show {
-  opacity: 1; /* Fade in */
+/* Hide scrollbar for Chrome, Safari, and Opera */
+.destinations::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge, and Firefox */
+.destinations {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 .destination {
-  background-color: white;
-  border: 1px solid;
+  background-color: transparent;
+  border: 4px solid;
   margin: 0.5rem 0;
   border-radius: 0.6rem;
-  padding: 0rem;
-  width: 60%;
+  padding: 1rem;
+  width: 65%;
   display: flex;
   flex-direction: column;
+  opacity: 0; /* Start hidden */
+  transform: translateY(20px);
+  animation: fadeInUp 0.5s forwards;
+  backdrop-filter: blur(10px);
+}
+
+.destination:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.destination:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.destination:nth-child(3) {
+  animation-delay: 0.5s;
+}
+
+.destination:nth-child(4) {
+  animation-delay: 0.7s;
+}
+
+/* Adjust delays for additional cards as needed */
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .destination > * {
   padding: 0.5rem;
 }
 
-.destination > footer {
+.destination > header {
   display: flex;
-  justify-content: space-between; /* Space between the button and the details */
-  gap: 1px; /* Space between elements */
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.destination > header p {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  font-size: 0.9rem;
+  color: #f60000;
+}
+
+/* Adjust footer to position the delete button properly */
+.destination > footer {
+  position: relative;
+  height: 50px; /* Ensure footer has enough height to contain the button */
+  padding-right: 15px; /* Match the padding of the heart emoji */
+  padding-bottom: 10px;
 }
 
 .destination > footer .button {
-  margin-left: auto;
+  position: absolute;
+  bottom: -40px; /* Position it slightly above the bottom edge */
+  right: 10px; /* Position it slightly to the left of the right edge */
+  padding: 10px 20px; /* Button padding */
+  border-radius: 4px; /* Rounded corners */
+  background-color: #008cba; /* Blue background */
+  color: white; /* White text */
+  border: none; /* Remove borders */
+  cursor: pointer; /* Pointer/hand icon */
+  transition: background-color 0.3s; /* Smooth background color transition */
 }
 
 .destination > footer > * {
@@ -154,14 +241,13 @@
 }
 
 .heart-emoji {
-  position: fixed; /* Position the heart emoji absolutely */
+  position: absolute; /* Position the heart emoji absolutely */
   top: 10px; /* Adjust the top position as needed */
-  left: 10px; /* Adjust the right position as needed */
+  right: 15px; /* Adjust the right position as needed */
   font-size: 24px; /* Adjust the size as needed */
-  /* Ensure it appears on top of other elements */
+  z-index: 10; /* Ensure it appears on top of other elements */
 }
 
-/* New element for right and bottom borders */
 .bottom-right-borders {
   position: fixed;
   bottom: 90px; /* Match the top offset of the header */
@@ -189,4 +275,75 @@
   height: 500px; /* Height of the border (same as the header height) */
   top: 0; /* Align to the top edge of .bottom-right-borders */
   left: 100%; /* Position to the right of .bottom-right-borders */
+}
+
+.destination p {
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+  color: #f60000;
+}
+
+.add-destination-form {
+  border: 3px solid #ebb064; /* Border with a specific color */
+  border-radius: 8px; /* Rounded corners */
+  padding: 50px; /* Padding inside the box */
+  background-color: #fff; /* White background color */
+  width: 400px; /* Set a specific width */
+  margin: 20px auto; /* Center the box with auto margin */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  box-sizing: border-box; /* Include padding and border in the element's width and height */
+}
+
+.add-destination-form h2 {
+  margin-bottom: 1rem; /* Space below the heading */
+  text-align: center; /* Center the heading text */
+}
+
+.add-destination-form label {
+  display: block; /* Ensure the labels are block elements */
+  margin-bottom: 0.5rem; /* Space below the label */
+  color: #333; /* Darker color for the labels */
+}
+
+.add-destination-form input,
+.add-destination-form select,
+.add-destination-form textarea {
+  width: 100%; /* Full width input fields */
+  padding: 10px; /* Padding inside the input fields */
+  margin-bottom: 1rem; /* Space below each input field */
+  border: 1px solid #ccc; /* Light gray border for input fields */
+  border-radius: 4px; /* Rounded corners for input fields */
+  box-sizing: border-box; /* Include padding and border in the element's width and height */
+}
+
+.add-destination-form button {
+  width: 100%; /* Full width button */
+  padding: 10px; /* Padding inside the button */
+  background-color: #008cba; /* Blue background */
+  color: white; /* White text */
+  border: none; /* Remove the border */
+  border-radius: 4px; /* Rounded corners */
+  cursor: pointer; /* Pointer/hand icon */
+  transition: background-color 0.3s; /* Smooth background color transition */
+}
+
+.add-destination-form button:hover {
+  background-color: #005f5f; /* Darker background on hover */
+}
+
+/* Style for destination links */
+.destinations a {
+  color: inherit; /* Inherit the color from the parent element */
+  text-decoration: none; /* Remove the underline */
+}
+
+/* Style for visited destination links */
+.destinations a:visited {
+  color: inherit; /* Make visited links have the same color as unvisited links */
+}
+
+/* Style for hovering over destination links */
+.destinations a:hover {
+  color: blue; /* Change the color on hover */
+  text-decoration: none; /* Optionally, add an underline on hover */
 }
