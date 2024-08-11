@@ -13,11 +13,23 @@ body {
   justify-content: center;
   align-items: center;
   padding-top: 40px;
+  overflow: hidden; /* Hide overflow to prevent scrolling issues */
 }
 
+video.background-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensure the video covers the entire background */
+  z-index: -1; /* Place it behind other content */
+}
+
+/* Remove the image background from the welcome page */
 .welcome-background {
   min-height: 100vh;
-  background-image: url(wp3283268.jpg);
+  background-color: transparent; /* Remove the background image */
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -62,7 +74,7 @@ body {
 
 /* Navigation Bar Styling */
 .navbar {
-  background-color: rgb(255, 255, 255);
+  background-color: transparent;
   backdrop-filter: blur(10px);
   display: flex;
   justify-content: space-between; /* Space links and menu icon */
@@ -117,7 +129,7 @@ body {
   right: 0;
   height: 100vh;
   width: 250px;
-  z-index: 999;
+  z-index: 1001;
   background-color: rgba(255, 255, 255, 0.153);
   backdrop-filter: blur(10px);
   box-shadow: -10px 0 10px rgb(0, 0, 0, 0.1);
