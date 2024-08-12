@@ -3,13 +3,14 @@ import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import { addUser, getUserByEmail } from "../../services/userService";
 
-export const Register = (props) => {
+export const Register = () => {
   const [customer, setCustomer] = useState({
     email: "",
     fullName: "",
+    password: "", // New field for password
     isStaff: false,
   });
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const registerNewUser = () => {
     addUser(customer).then((createdUser) => {
@@ -18,7 +19,7 @@ export const Register = (props) => {
           "trip-ify_user",
           JSON.stringify({
             id: createdUser.id,
-            staff: createdUser.isStaff,
+            isStaff: createdUser.isStaff,
           })
         );
 
@@ -31,10 +32,8 @@ export const Register = (props) => {
     e.preventDefault();
     getUserByEmail(customer.email).then((response) => {
       if (response.length > 0) {
-        // Duplicate email. No good.
         window.alert("Account with that email address already exists");
       } else {
-        // Good email, create user.
         registerNewUser();
       }
     });
@@ -49,7 +48,7 @@ export const Register = (props) => {
   return (
     <main style={{ textAlign: "center" }}>
       <form className="form-login" onSubmit={handleRegister}>
-        <h1>Honey Rae Repairs</h1>
+        <h1>trip-ify</h1>
         <h2>Please Register</h2>
         <fieldset>
           <div className="form-group">
@@ -72,6 +71,18 @@ export const Register = (props) => {
               id="email"
               className="form-control"
               placeholder="Email address"
+              required
+            />
+          </div>
+        </fieldset>
+        <fieldset>
+          <div className="form-group">
+            <input
+              onChange={updateCustomer}
+              type="password"
+              id="password"
+              className="form-control"
+              placeholder="Password"
               required
             />
           </div>

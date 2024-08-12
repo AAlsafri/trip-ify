@@ -45,11 +45,11 @@ video.background-video {
   background-color: transparent;
   backdrop-filter: blur(10px); /* Blurring the background */
   border-radius: 10px;
-  padding: 30px;
+  padding: 70px;
   max-width: 600px;
   text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   color: #000000;
+  border: 5px solid #ebb064;
 }
 
 .welcome-title {

@@ -13,18 +13,20 @@ export const UserJourney = ({ currentUser }) => {
     date: "",
     title: "",
     body: "",
-    user_id: currentUser.id, // Ensure the new entry has the user_id
+    user_id: currentUser.id,
   });
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
     if (currentUser) {
-      // Fetch the user's destinations
       getDestinationsByUserId(currentUser.id).then(setDestinations);
-
-      // Fetch the user's journal entries
       getJournalEntriesByUserId(currentUser.id).then(setJournalEntries);
     }
   }, [currentUser]);
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -36,7 +38,6 @@ export const UserJourney = ({ currentUser }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add the new journal entry to the database
     const savedEntry = await addJournalEntry(newEntry);
     setJournalEntries((prevEntries) => [...prevEntries, savedEntry]);
     setNewEntry({
@@ -51,14 +52,25 @@ export const UserJourney = ({ currentUser }) => {
     <div className="user-journey-container">
       <div className="user-info">
         <h2>Hello, {currentUser.name}</h2>
-        <h3>Your Destinations</h3>
-        <ul className="destinations-list">
-          {destinations.map((destination) => (
-            <li key={destination.id}>
-              {destination.name} ({destination.country})
-            </li>
-          ))}
-        </ul>
+        <h3 onClick={toggleDropdown}>
+          Your Destinations ({destinations.length})
+          {dropdownOpen ? (
+            <span style={{ marginLeft: "8px", transform: "rotate(180deg)" }}>
+              ▼
+            </span>
+          ) : (
+            <span style={{ marginLeft: "8px" }}>▼</span>
+          )}
+        </h3>
+        {dropdownOpen && (
+          <ul className="destinations-list">
+            {destinations.map((destination) => (
+              <li key={destination.id}>
+                {destination.name} ({destination.country})
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
       <div className="journal-entry-form">
         <h3>Log Your Journey</h3>
@@ -96,14 +108,13 @@ export const UserJourney = ({ currentUser }) => {
           <button type="submit">Add Note</button>
         </form>
         <div className="journal-entries">
-          <h3>Your Journal Entries</h3>
           <ul>
             {journalEntries.map((entry, index) => (
-              <li key={index}>
+              <div key={index} className="journal-entry-box">
                 <h4>{entry.title}</h4>
                 <p>{entry.body}</p>
                 <small>{entry.date}</small>
-              </li>
+              </div>
             ))}
           </ul>
         </div>

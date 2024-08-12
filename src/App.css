@@ -122,6 +122,7 @@
   padding: 20px;
   box-sizing: border-box;
   overflow-y: auto;
+  border: 2px solid;
 }
 
 /* Hide scrollbar for Chrome, Safari, and Opera */

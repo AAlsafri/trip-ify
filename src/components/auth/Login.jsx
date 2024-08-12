@@ -5,14 +5,15 @@ import "./Login.css";
 import { getUserByEmail } from "../../services/userService";
 
 export const Login = () => {
-  const [email, set] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState(""); // New state for password
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
 
     getUserByEmail(email).then((foundUsers) => {
-      if (foundUsers.length === 1) {
+      if (foundUsers.length === 1 && foundUsers[0].password === password) {
         const user = foundUsers[0];
         localStorage.setItem(
           "trip-ify_user",
@@ -24,7 +25,7 @@ export const Login = () => {
 
         navigate("/");
       } else {
-        window.alert("Invalid login");
+        window.alert("Invalid email or password");
       }
     });
   };
@@ -40,11 +41,23 @@ export const Login = () => {
               <input
                 type="email"
                 value={email}
-                onChange={(evt) => set(evt.target.value)}
+                onChange={(evt) => setEmail(evt.target.value)}
                 className="form-control"
                 placeholder="Email address"
                 required
                 autoFocus
+              />
+            </div>
+          </fieldset>
+          <fieldset>
+            <div className="form-group">
+              <input
+                type="password"
+                value={password}
+                onChange={(evt) => setPassword(evt.target.value)}
+                className="form-control"
+                placeholder="Password"
+                required
               />
             </div>
           </fieldset>
